@@ -852,7 +852,7 @@ def fromBase():
         if conpg:
          with conpg:
              with conpg.cursor() as curpg:
-               sql = "SELECT  domain, protocol, id FROM projects  where (\"protocol\"='https://' or  \"protocol\"='http://') and ( \"profileUrl\" is null or \"Emails\" is null or  \"Emails\" = '' or \"Emails\" not like '%@%') and MOD(id,10)="+str(siteGenDiv20)+" order by \"LastModified\" desc;" 
+               sql = "SELECT  domain, protocol, id FROM projects  where (\"protocol\"='https://' or  \"protocol\"='http://') and ( \"profileUrl\" is null or \"Emails\" is null or  \"Emails\" = '' or \"Emails\" not like '%@%') and MOD(id,10)="+str(siteGenDiv20)+" order by \"LastModified\" asc;" 
                #sql = "SELECT  domain, protocol, id FROM projects  where domain='shopmajorskylights.com' order by \"LastModified\" desc;" 
                
                curpg.execute(sql)

@@ -455,13 +455,13 @@ def makeGetRequest(url, main):
 def recursiveUrl(url, link, depth, urlMain, strUrl, alreadyAdded, time1start1):
     diff1 = (datetime.datetime.now()-time1start1).seconds
     # print('spentTime seconds:'+str(diff1))
-    global diffTimeProcess
-    if diff1 > diffTimeProcess:
-        return url
+    # global diffTimeProcess
+    # if diff1 > diffTimeProcess:
+    #     return url
     if link is None:
         return url
     global depthSite
-    if depth == depthSite:
+    if depth > depthSite:
         return url
     if len(alreadyAdded) > 2:
         return url
@@ -573,6 +573,10 @@ def recursiveUrl(url, link, depth, urlMain, strUrl, alreadyAdded, time1start1):
             if (not str2 in alreadyAdded) and ('@' in str2):
                 alreadyAdded.append(str2)
                 print('++new mail')
+                print(alreadyAdded)
+            if (not href in alreadyAdded) and ('@' in href):
+                alreadyAdded.append(str2)
+                print('++new mail_href')
                 print(alreadyAdded)
             # else:
             #     print('--was')
@@ -749,10 +753,12 @@ def main33(url, urlMain, strUrl, n, time1start, idRecord):
     # rtext = makeGetRequest('http://'+str(url), 'http://'+str(urlMain))
     rtext = makeGetRequest(str(url), str(urlMain))
     links = [url+'/']
+    emails_mailtos = []
     linksprofileStr = ''
     if rtext is None:
         return False
     if not rtext is None:
+        emails_mailtos = re.findall(r"[a-z0-9\.\-+_]+@[a-z0-9\.\-+_]+\.[a-z]+", rtext)
         if rtext.find('cdn.shopify.com') != -1:
             isShopify = True;
             print('url "',url,'"; isShopify ', isShopify)
@@ -804,7 +810,7 @@ def main33(url, urlMain, strUrl, n, time1start, idRecord):
     # print('links')
     # print(links)
 
-    alreadyAdded1 = []
+    alreadyAdded1 = emails_mailtos
     alreadyAdded1.append(strUrl)
 
     Object1 = '#####'

@@ -914,8 +914,8 @@ i1 = 0
 
 pgdb = 'great_paraser'
 pguser = 'postgres'
-pgpswd = 'postgres'
-pghost = '10.72.1.117'
+pgpswd = '111'
+pghost = '10.1.1.117'
 pgport = '5432'
 # pgschema = 'great_paraser'
 max_process_count = 2

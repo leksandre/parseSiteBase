@@ -302,7 +302,7 @@ def makeGetRequest(url, main):
     if url[-4].find('.raw') > -1:
         return None
     
-    nproxy=False
+    nproxy=True
     if url.find('.php') > -1:
         print((url, main))
     # if url.find('video')>-1:
@@ -312,7 +312,7 @@ def makeGetRequest(url, main):
     if url.find(str2) == -1:
         return None
     global visitedUrl
-    if(random.randint(1,99999)==9):
+    if(random.randint(1,5999)==9):
         visitedUrl=[]
     if str(url) in visitedUrl:
         return None
@@ -325,7 +325,7 @@ def makeGetRequest(url, main):
         useTor = True
         r = Response1("0", '')
         counttryes = counttryes+1
-        if counttryes > 2:
+        if counttryes > 4:
             return None
         if counttryes > 1:
             nproxy = not nproxy
@@ -456,8 +456,8 @@ def recursiveUrl(url, link, depth, urlMain, strUrl, alreadyAdded, time1start1):
     diff1 = (datetime.datetime.now()-time1start1).seconds
     # print('spentTime seconds:'+str(diff1))
     # global diffTimeProcess
-    # if diff1 > diffTimeProcess:
-    #     return url
+    if diff1 > diffTimeProcess:
+        return url
     if link is None:
         return url
     global depthSite
@@ -533,6 +533,14 @@ def recursiveUrl(url, link, depth, urlMain, strUrl, alreadyAdded, time1start1):
     some_list = mailtos+mailtos2+emails_mailtos+emails_mailtos1
     mailtos = list(dict.fromkeys(some_list))
 
+
+
+    for item in mailtos.copy():
+        if isinstance(item, str):
+            if item.find('@2x') != -1 or  item.find('@3x') != -1:
+                mailtos.remove(item)
+
+
     # print('newlink')
     # print(newlink)
     # time.sleep(20)
@@ -575,7 +583,7 @@ def recursiveUrl(url, link, depth, urlMain, strUrl, alreadyAdded, time1start1):
                 print('++new mail')
                 print(alreadyAdded)
             if (not href in alreadyAdded) and ('@' in href):
-                alreadyAdded.append(str2)
+                alreadyAdded.append(href)
                 print('++new mail_href')
                 print(alreadyAdded)
             # else:
@@ -806,6 +814,14 @@ def main33(url, urlMain, strUrl, n, time1start, idRecord):
     some_list = links
     links = list(dict.fromkeys(some_list))
 
+
+    some_lis1t = emails_mailtos
+    emails_mailtos = list(dict.fromkeys(some_lis1t))
+
+    for item in emails_mailtos.copy():
+        if isinstance(item, str):
+            if item.find('.png') != -1 or  item.find('.jpg') != -1 or  item.find('.jpeg') != -1 or  item.find('.gif') != -1:
+                emails_mailtos.remove(item)
     
     # print('links')
     # print(links)
@@ -858,9 +874,11 @@ def fromBase():
         if conpg:
          with conpg:
              with conpg.cursor() as curpg:
-               sql = "SELECT  domain, protocol, id FROM projects  where (\"protocol\"='https://' or  \"protocol\"='http://') and ( \"profileUrl\" is null or \"Emails\" is null or  \"Emails\" = '' or \"Emails\" not like '%@%') and MOD(id,10)="+str(siteGenDiv20)+" order by \"LastModified\" asc;" 
+               sql = "SELECT  domain, protocol, id FROM projects   where   (\"protocol\"='https://' or  \"protocol\"='http://') and ( \"profileUrl\" is null or \"Emails\" is null or  \"Emails\" = '' or \"Emails\" not like '%@%') and MOD(id,10)="+str(siteGenDiv20)+" order by \"LastModified\" asc;" 
+              # \"LastModified\"='2022-10-10 00:00:00' and
                #sql = "SELECT  domain, protocol, id FROM projects  where domain='shopmajorskylights.com' order by \"LastModified\" desc;" 
-               
+              
+
                curpg.execute(sql)
                res1 = curpg.fetchall()
             #    print('res1 %s' % len(res1[0]))
@@ -883,11 +901,11 @@ def fromBase():
 global httpTimeOut
 httpTimeOut = 0
 global torWath
-torWath = 2
+torWath = 0
 global diffTimeProcess
-diffTimeProcess = 3
+diffTimeProcess = 0
 global depthSite
-depthSite = 4
+depthSite = 1
 first = True
 
 maxProcCount = 499
@@ -896,8 +914,8 @@ i1 = 0
 
 pgdb = 'great_paraser'
 pguser = 'postgres'
-pgpswd = 'blabla'
-pghost = '0.1.1.1'
+pgpswd = 'postgres'
+pghost = '10.72.1.117'
 pgport = '5432'
 # pgschema = 'great_paraser'
 max_process_count = 2
@@ -908,13 +926,13 @@ d1 = json.JSONDecoder()
 while True:
 
 
-    if torWath > 10:
-        torWath=2
-    if diffTimeProcess>25:
-        diffTimeProcess=3
-    if depthSite > 15:
-         depthSite=4
-    if httpTimeOut > 5:
+    if torWath > 12:
+        torWath=0
+    if diffTimeProcess>27:
+        diffTimeProcess=0
+    if depthSite > 21:
+         depthSite=1
+    if httpTimeOut > 9:
         httpTimeOut = 0
 
     torWath = torWath + 1
@@ -942,8 +960,16 @@ while True:
         if len(str2) < 3:
             continue
 
-        str1 = siteData[1]+str2.strip()
-        str2 = siteData[1]+str2.strip()
+        protokol9=siteData[1]
+        # if(random.randint(1,4)==3):
+        #     if protokol9=='http://':
+        #         protokol9='https://'
+        # if(random.randint(1,10)==9):
+        #     if protokol9=='https://':
+        #         protokol9='http://'
+                
+        str1 = protokol9+str2.strip()
+        str2 = protokol9+str2.strip()
 
         if threading.active_count() < maxProcCount:
             # print('startTime:'+str(datetime.datetime.now()))
